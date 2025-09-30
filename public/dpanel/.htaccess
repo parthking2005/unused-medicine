@@ -1,0 +1,23 @@
+# Ensure CSS files are served with correct MIME type
+<Files "*.css">
+    Header set Content-Type "text/css"
+</Files>
+
+# Ensure JS files are served with correct MIME type
+<Files "*.js">
+    Header set Content-Type "application/javascript"
+</Files>
+
+# Ensure font files are served with correct MIME types
+<Files "*.woff">
+    Header set Content-Type "font/woff"
+</Files>
+<Files "*.woff2">
+    Header set Content-Type "font/woff2"
+</Files>
+<Files "*.ttf">
+    Header set Content-Type "font/ttf"
+</Files>
+<Files "*.eot">
+    Header set Content-Type "application/vnd.ms-fontobject"
+</Files>

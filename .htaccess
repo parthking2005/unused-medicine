@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Handle all requests through Laravel
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /umd/public/index.php [L,QSA]
