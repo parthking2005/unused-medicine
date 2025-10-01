@@ -3,48 +3,52 @@
 @section('content')
 <div class="content-body">
     <div class="container-fluid">
-        @include('partial.customerror')
-        @include('partial.success')
-
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Block/Warn Donators</h4>
+                    <h4>Manage Donators</h4>
                 </div>
             </div>
         </div>
+
+        @include('partial.customerror')
+        @include('partial.success')
+
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Donators received Bad feedback</h4>
+                        <h4 class="card-title">Donators with Bad Feedback</h4>
                     </div>
-                    <div class="card-body" id="tablediv">
+                    <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table header-border table-responsive-sm">
+                            <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Donator ID</th>
                                         <th>Donator Name</th>
-                                        <th>City,State</th>
-                                        <th>Feedback Description</th>
-                                        <th>NGO</th>
-                                        <th>Action</th>
+                                        <th>Email</th>
+                                        <th>Contact</th>
+                                        <th>Feedback Category</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($records as $record)
-                                    <tr id="tr{{ $record->donator_id }}">
-                                        <td>#{{ $record->donator_id }}</td>
-                                        <td><span class="text-muted">{{ $record->donator->name }}</span></td>
-                                        <td><span class="text-muted">{{ $record->donator->city }},{{ $record->donator->state }}</span></td>
-                                        <td><span class="text-muted">{{ $record->donation->feedback->description }}</span></td>
-                                        <td><span class="text-muted">{{ $record->donation->ngo->name}}</span></td>
-                                        @if($record->donator->bfcount>2)
-                                        <td><a href="/admin/blockdonator/{{$record->donator_id}}" name="block"><span class="btn btn-danger btn-sm">Block</span></a></td>
-                                        @else
-                                        <td><a href="/admin/warndonator/{{$record->donator_id}}" name="warn"><span class="btn btn-warning btn-sm">Warn</span></a></td>
-                                        @endif
+                                    <tr>
+                                        <td>{{ $record->donator->name }}</td>
+                                        <td>{{ $record->donator->email }}</td>
+                                        <td>{{ $record->donator->contact }}</td>
+                                        <td>{{ $record->feedback->category->name }}</td>
+                                        <td>{{ $record->feedback->description }}</td>
+                                        <td>
+                                            <a href="{{ route('BlockDonator-Admin', $record->donator_id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to block this donator?')">
+                                                Block
+                                            </a>
+                                            <a href="{{ route('WarnDonator-Admin', $record->donator_id) }}" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to warn this donator?')">
+                                                Warn
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -56,6 +60,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection

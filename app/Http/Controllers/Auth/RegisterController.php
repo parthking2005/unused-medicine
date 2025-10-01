@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Ngo;
+use App\Admin;
 use App\Donator;
 use App\Manager;
 use App\Verifier;
@@ -157,13 +158,42 @@ class RegisterController extends Controller
 
     //This is Manager functinality
 
+    public function showNgoRegisterForm()
+    {
+        return view('admin.registerNGO');
+    }
+    
+    protected function createNgo(Request $request)
+    {
+        $this->validate($request, [
+            'name'   => 'required',
+            'address'   => 'required|max:255',
+            'pincode' => 'required|size:6',
+            'state'   => 'required',
+            'city'   => 'required',
+        ]);
+
+        $ngo = Ngo::create([
+            'name' => $request['name'],
+            'address' => $request['address'],
+            'city' => $request['city'],
+            'state' => $request['state'],
+            'pincode' => $request['pincode'],
+            'dpd' => '2',
+        ]);
+        
+        if($ngo) {
+            return redirect()->route('admin-displayngos')->with('success','NGO registered successfully');
+        }
+        
+        return back()->withInput()->withErrors(['errmsg' => 'Unknown error']);
+    }
+
     public function showManagerRegisterForm()
     {
-        // $ngos = Ngo::whereNotIn('id', function ($query) {
-        //     $query->select('ngo_id')->from('managers');
-        // })->get();
-        $ngos = Ngo::all();
-        // dd($ngos);
+        $ngos = Ngo::whereNotIn('id', function ($query) {
+            $query->select('ngo_id')->from('managers');
+        })->get();
         return view('admin.registermanager', ['ngos' => $ngos]);
     }
 

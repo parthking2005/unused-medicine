@@ -149,19 +149,14 @@ class DonatorController extends Controller
 
     public function showDonateForm()
     {
-        // $disabledaterecord = PickupSchedule::select('date', DB::raw('count(*) as count'))->groupBy('date')->get();
-        // for ($i = 0; $i < count($disabledaterecord); $i++) {
-        //     $disabledate[$i] = $disabledaterecord[$i]->date;
-        // }
-        $data = array();
-        $ngoids = PickupSchedule::where('donator_id', Auth::user()->id)->get('ngo_id');
-        // dd($ngoids);
-        foreach ($ngoids as $ngoid) {
-            $data[] = $ngoid->ngo_id;
+        // Get all NGOs in the same city as the user
+        $ngos = Ngo::select('id', 'name')->where('city', Auth::user()->city)->get();
+        
+        // If no NGOs found in the same city, get all NGOs
+        if ($ngos->isEmpty()) {
+            $ngos = Ngo::select('id', 'name')->get();
         }
-        // dd($data);
-        $ngos = Ngo::select('id', 'name')->where('city', Auth::user()->city)->whereIn('id', $data)->get();
-        // dd($ngos);
+        
         return view('donator.donate', ['ngos' => $ngos]);
     }
 

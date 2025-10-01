@@ -13,6 +13,8 @@
     <link href="{{ asset('vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom-admin.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -74,7 +76,7 @@
 
                         <ul class="navbar-nav header-right">
                             <li class="nav-item dropdown notification_dropdown">
-                                <a class="nav-link" href="/admin/messages">
+                                <a class="nav-link" href="{{ route('admin.messages') }}">
                                     <i class="mdi mdi-bell"></i>
                                     <div class="pulse-css"></div>
                                 </a>
@@ -86,11 +88,11 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="/admin/profile" class="dropdown-item">
+                                    <a href="{{ route('Profile-Admin') }}" class="dropdown-item">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                         <span class="ml-2">Profile </span>
                                     </a>
-                                    <a href="/admin/logout" class="dropdown-item">
+                                    <a href="{{ route('admin-logout') }}" class="dropdown-item">
                                         <i class="fa fa-key" aria-hidden="true"></i>
                                         <span class="ml-2">Logout</span>
                                     </a>
@@ -114,19 +116,19 @@
                     <li class="nav-label first">Main Menu</li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-text">{{ __('NGO') }}</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="/admin/registerngo">{{ __('Register NGO') }}</a></li>
-                            <li><a href="/admin/displayngos">{{ __('Display All NGOs') }}</a></li>
+                            <li><a href="{{ route('admin-registerngo') }}">{{ __('Register NGO') }}</a></li>
+                            <li><a href="{{ route('admin-displayngos') }}">{{ __('Display All NGOs') }}</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="nav-text">{{ __('NGO Manager') }}</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="/admin/registermanager">{{ __('Register NGO Manager') }}</a></li>
-                            <li><a href="/admin/displaymanagers">{{ __('Display All Manager') }}</a></li>
+                            <li><a href="{{ route('admin-registermanager') }}">{{ __('Register NGO Manager') }}</a></li>
+                            <li><a href="{{ route('admin-displaymanagers') }}">{{ __('Display All Manager') }}</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ route('ViewDonationHistory-Admin') }}"><i class="fa fa-history" aria-hidden="true"></i><span class="nav-text">{{ __('View Donation History') }}</span></a>
-                    <li><a href="/admin/medicinestock" aria-expanded="false"><i class="fa fa-cubes" aria-hidden="true"></i><span class="nav-text">{{ __('View Medicine Stock') }}</span></a></li>
-                    <li><a href="/admin/managedonators" aria-expanded="false"><i class="fa fa-user-times" aria-hidden="true"></i><span class="nav-text">{{ __('Manage Donators') }}</span></a></li>
+                    <li><a href="{{ route('ViewMedicineStock-Admin') }}" aria-expanded="false"><i class="fa fa-cubes" aria-hidden="true"></i><span class="nav-text">{{ __('View Medicine Stock') }}</span></a></li>
+                    <li><a href="{{ route('ManageDonators-Admin') }}" aria-expanded="false"><i class="fa fa-user-times" aria-hidden="true"></i><span class="nav-text">{{ __('Manage Donators') }}</span></a></li>
                     <li class="nav-label">User Menu</li>
                     <li><a href="{{ route('Profile-Admin') }}" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i><span class="nav-text">{{ __('Profile') }}</span></a></li>
                     <li><a href="{{ route('ChangePassword-Admin') }}" aria-expanded="false"><i class="fa fa-key" aria-hidden="true"></i></i><span class="nav-text">{{ __('Change Password') }}</span></a></li>
@@ -203,6 +205,34 @@
     <!-- Datatable -->
     <script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/plugins-init/datatables.init.js') }}"></script>
+    
+    <script>
+        // Add active class to current menu item
+        $(document).ready(function() {
+            // Get current URL path
+            var path = window.location.pathname;
+            
+            // Highlight active menu item
+            $('.metismenu a').each(function() {
+                var href = $(this).attr('href');
+                if (href === path || path.indexOf(href) === 0) {
+                    $(this).addClass('active');
+                    $(this).parents('ul').addClass('mm-show');
+                    $(this).parents('li').addClass('mm-active');
+                }
+            });
+            
+            // Fix sidebar height
+            $('.quixnav').css('min-height', $(window).height() - $('.header').height() - $('.footer').height());
+            
+            // Make sure tabs don't get hidden
+            $('.nav-tabs').each(function() {
+                if ($(this).find('li.nav-item').length > 0) {
+                    $(this).css('min-width', $(this).find('li.nav-item').length * 150);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

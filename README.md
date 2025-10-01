@@ -1,146 +1,168 @@
-## UMD – Medicine Donation Platform (Laravel)
+# MedCharity - Medicine Donation Management System
 
-This is a Laravel application for coordinating unused-medicine donations between Donators and NGOs, operated by Admins and NGO staff. It supports user roles, donation workflows, medicine verification, stock management, and feedback.
+MedCharity is a comprehensive platform that connects medicine donors with NGOs to facilitate the efficient distribution of medicines to those in need.
 
-### Tech Stack
-- Laravel (PHP)
-- SQLite (default) – a single file database at `database/database.sqlite`
-- Blade views in `resources/views`
-- Auth guards for multiple roles (`admin`, `donator`, `manager`, `pickupman`, `verifier`)
+## System Flows
 
-### Local Setup
-1) Install PHP extensions (pdo_sqlite, openssl, mbstring, tokenizer, xml, ctype, json). With XAMPP they are typically available.
-2) From the project root:
-   - Copy env: `cp .env.example .env` (already present in this repo).
-   - Ensure DB is SQLite: `DB_CONNECTION=sqlite` and `DB_DATABASE` points to the full path of `database/database.sqlite`.
-   - Generate key (if not set): `php artisan key:generate`.
-   - Create the SQLite file if missing: create an empty file at `database/database.sqlite`.
-   - Migrate: `php artisan migrate`.
-3) Run the app: `php artisan serve` and browse `http://127.0.0.1:8000`.
+### 1. Medicine Management Flow
+- **Medicine Registration**
+  - Medicines are categorized into predefined categories
+  - Each medicine has details like name, brand, and category
+- **Stock Management**
+  - NGOs maintain medicine stock inventory
+  - Each stock entry tracks quantity and NGO association
+- **Expiration Management**
+  - System tracks medicine expiration dates
+  - Alerts for medicines nearing expiration
+  - Automatic removal of expired medicines from stock
+  - Reports on disposed medicines
 
-If you see “Database (database/database.sqlite) does not exist”, set `DB_DATABASE` to the absolute path of the file, then `php artisan config:clear`.
+### 2. Donation Process Flow
+- **Donation Initiation**
+  - Donator selects NGO and schedules pickup
+  - System checks NGO's daily donation limit
+- **Pickup Process**
+  - NGO assigns available pickupman
+  - Pickupman collects medicines from donator
+  - Status updates at each step
+- **Verification Process**
+  - Verifier checks medicine quality and expiry
+  - Approved medicines added to NGO stock
+  - Feedback recorded for donation
+- **Stock Update**
+  - Medicine inventory updated after verification
+  - Stock levels monitored for reordering
 
-### Modules (Eloquent Models)
-- Admin (`app/Admin.php`)
-- Ngo (`app/Ngo.php`)
-- Manager (`app/Manager.php`)
-- Verifier (`app/Verifier.php`)
-- Pickupman (`app/Pickupman.php`)
-- Donator (`app/Donator.php`)
-- Donation (`app/Donation.php`), DonationMedicine, DonationMedicineExpiration
-- Medicine (`app/Medicine.php`), MedicineCategory, MedicineStock, MedicineStockExpiration
-- Feedback, BadFeedback, FeedbackCategory, Message
+### 3. User Management Flow
+- **Role-based Access**
+  - Admin: System-wide management
+  - NGO Manager: Branch management
+  - Pickupman: Collection management
+  - Verifier: Medicine verification
+  - Donator: Donation management
+- **Profile Management**
+  - User profile updates
+  - Contact information management
+  - Profile image handling
+- **Authentication**
+  - Secure login system
+  - Password reset functionality
+  - Remember me feature
 
-### Main Sections and How to Access
-- Public site (Donator-facing)
-  - Home: GET `/` (route name `MedCharity`)
-  - About: GET `/about`
-  - Contact: GET `/contact`, POST `/contactmessage`
-  - Register (Donator): GET `/register`, POST `/register`
-  - Login (Donator): GET `/login`, POST `/login`
-  - Forgot/Create Password: `/forgotpassword`, `/createpassword`
-  - Authenticated Donator:
-    - Donate: GET/POST `/donate`
-    - View donations: GET `/donations`
-    - Profile & Change Password: `/profile`, `/changepassword`
-    - Logout: GET `/logout`
+### 4. NGO Branch Management Flow
+- **Branch Operations**
+  - Branch profile management
+  - Staff assignment (managers, pickupmen, verifiers)
+  - Daily donation limit (DPD) management
+- **Performance Tracking**
+  - Branch-wise donation statistics
+  - Staff performance metrics
+  - Resource utilization reports
+- **Resource Allocation**
+  - Medicine stock distribution
+  - Staff workload management
+  - Inter-branch medicine transfers
 
-- Admin panel
-  - Login: GET `/admin/login`, POST `/admin/login`
-  - After login: GET `/admin`
-  - NGO management: `/admin/registerngo` (GET/POST), `/admin/displayngos`, edit/update/delete routes
-  - Manager management: `/admin/registermanager` (GET/POST), `/admin/displaymanagers`, edit/update/delete
-  - Donator moderation: `/admin/managedonators`, block/warn routes
-  - Medicine stock overview: `/admin/medicinestock` (POST category select)
-  - Donation history: `/admin/donationhistory`
-  - Messages: `/admin/messages` and `/admin/messages/{id}`
+### 5. Feedback System Flow
+- **Feedback Collection**
+  - Categorized feedback system
+  - Detailed feedback descriptions
+  - Feedback linked to specific donations
+- **Quality Control**
+  - Bad feedback tracking
+  - Donator reputation management
+  - Automatic blocking of problematic donators
+- **Improvement Tracking**
+  - Feedback analysis reports
+  - Service quality metrics
+  - Improvement recommendations
 
-- NGO > Manager area (under `/ngo/manager`)
-  - Login/Create/Forgot password: `/ngo/manager/login`, `/ngo/manager/createpassword`, `/ngo/manager/forgotpassword`
-  - Dashboard (after login): `/ngo/manager/`
-  - Pickupmen management: register/list/edit/update/delete
-  - Verifier management: register/list/edit/update/delete
-  - Donation operations: picked up donations, DPD updates, donation history
-  - Medicine stock management and expiries
+### 6. Emergency Request Flow
+- **Urgent Needs**
+  - Priority medicine requests
+  - Emergency pickup scheduling
+  - Real-time status tracking
+- **Quick Response**
+  - Immediate pickupman assignment
+  - Priority verification process
+  - Expedited stock updates
+- **Emergency Coordination**
+  - Inter-branch coordination
+  - Emergency contact system
+  - Rapid response tracking
 
-- NGO > Pickupman area (under `/ngo/pickupman`)
-  - Login/Create/Forgot password
-  - Dashboard (after login)
-  - Pending/Taken donations handling and status updates
+### 7. Reporting and Analytics Flow
+- **Operational Reports**
+  - Daily donation summaries
+  - Stock level reports
+  - Staff activity logs
+- **Performance Analytics**
+  - NGO performance metrics
+  - Donation trend analysis
+  - Medicine demand patterns
+- **Strategic Insights**
+  - Resource optimization suggestions
+  - Service improvement recommendations
+  - Growth opportunity identification
 
-- NGO > Verifier area (under `/ngo/verifier`)
-  - Login/Create/Forgot password
-  - Dashboard (after login)
-  - Take pending donations, add medicines, move to stock
-  - Give feedback, add medicine categories
+### 8. Communication Flow
+- **Internal Communication**
+  - Staff messaging system
+  - Task notifications
+  - Status updates
+- **External Communication**
+  - Donator notifications
+  - Public messages
+  - Contact form handling
+- **Alert System**
+  - Stock alerts
+  - Expiry notifications
+  - Emergency broadcasts
 
-### Authentication & Guards
-Defined routes live in `routes/web.php`. Multi-auth is implemented using guards (`config/auth.php`) and role-specific controllers in `app/Http/Controllers/Auth/`:
-- `LoginController` provides role-specific login and create-password flows.
-- `RegisterController` handles Donator registration and admin-assisted registrations for NGO staff.
-- `LogoutController` handles role-specific logout endpoints.
+## Getting Started
 
-Middleware `auth:<guard>` protects each role’s area. Example: manager routes use `auth:manager`.
+### Prerequisites
+- PHP >= 7.4
+- Laravel >= 8.0
+- MySQL >= 5.7
+- Composer
+- Node.js and NPM
 
-### API
-`routes/api.php` exposes a single example route:
-- GET `/api/user` (requires `auth:api` token). Out-of-the-box this returns the authenticated API user when token auth is configured. If you need richer APIs, add them here or convert web routes as needed.
+### Installation
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/medcharity.git
+```
 
-### Common Operational Tasks
-- Clear caches after changing `.env`:
-  - `php artisan config:clear`
-  - `php artisan cache:clear`
-- Run database migrations: `php artisan migrate`
-- Seed data (add your own seeders in `database/seeds` and call them from `DatabaseSeeder`)
+2. Install PHP dependencies
+```bash
+composer install
+```
 
-### Default Credentials
-No default users are hard-coded. Use Admin to create NGO staff, or register as a Donator via `/register`.
+3. Install JavaScript dependencies
+```bash
+npm install
+```
 
-### Project Structure Highlights
-- Routes: `routes/web.php`, `routes/api.php`
-- Controllers: `app/Http/Controllers` (Admin, Donator, Manager, Pickupman, Verifier, and Auth controllers)
-- Models: `app/*.php`
-- Views: `resources/views`
-- Public assets: `public`
+4. Configure environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-### Troubleshooting
-- Error: “Database (database/database.sqlite) does not exist”
-  - Ensure the file exists at `database/database.sqlite`.
-  - Point `DB_DATABASE` to the absolute path of the file.
-  - Run `php artisan config:clear` and refresh.
-- 500 on auth pages
-  - Ensure `APP_KEY` is set in `.env`.
-- Styling/JS not loading in XAMPP
-  - Access via `http://127.0.0.1:8000` and ensure `APP_URL` matches.
+5. Set up database
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
+6. Start development server
+```bash
+php artisan serve
+```
 
-## Getting started
+## Contributing
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-copy env file
-
-    .env.example to .env
-
-As a temporary fix, try this, it worked for me, in the following file:
-
-    vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php
-
-Find line 116 and comment it:
-
-    $packages = json_decode($this->files->get($path), true);
-
-Add two new lines after the above commented line:
-
-    $installed = json_decode($this->files->get($path), true);
-    $packages = $installed['packages'] ?? $installed;
-
-Install dependency for project
-
-    composer install
-
-Create Table structure using migration
-
-    php artisan migrate:fresh
-
-Run your project
-
-    php artisan serve
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

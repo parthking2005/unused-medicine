@@ -1,0 +1,250 @@
+/* Custom Admin CSS for MedCharity */
+
+/* Sidebar styling */
+.quixnav {
+    position: fixed;
+    height: 100vh;
+    width: 250px;
+    background-color: #4c3b63;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.content-body {
+    margin-left: 250px;
+    padding: 20px;
+    min-height: calc(100vh - 120px);
+}
+
+/* Sidebar menu styling */
+.metismenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.metismenu a {
+    padding: 15px 20px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.metismenu a:hover, 
+.metismenu a:focus {
+    background-color: #3a2e4c;
+    color: #fff;
+}
+
+.metismenu a.active {
+    background-color: #2e2340;
+    color: #fff;
+    border-left: 4px solid #fff;
+}
+
+/* Tab styling */
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -1px;
+    flex: 0 0 auto;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    padding: 0.75rem 1.25rem;
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #4c3b63;
+    background-color: #fff;
+    border-color: #ddd #ddd #fff;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .quixnav {
+        width: 64px;
+        overflow: visible;
+    }
+    
+    .content-body {
+        margin-left: 64px;
+    }
+    
+    .quixnav:hover {
+        width: 250px;
+    }
+    
+    .quixnav .nav-text {
+        display: none;
+    }
+    
+    .quixnav:hover .nav-text {
+        display: inline-block;
+    }
+}
+
+/* Card styling */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+    padding: 15px 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #4c3b63;
+    border-color: #4c3b63;
+}
+
+.btn-primary:hover {
+    background-color: #3a2e4c;
+    border-color: #3a2e4c;
+}
+
+/* Form styling */
+.form-control:focus {
+    border-color: #4c3b63;
+    box-shadow: 0 0 0 0.2rem rgba(76, 59, 99, 0.25);
+}
+
+/* Header styling */
+.header {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* Main menu styling */
+.main-menu {
+    padding: 15px 0;
+    border-bottom: 1px solid #eaeaea;
+}
+
+/* User menu styling */
+.user-menu {
+    margin-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+/* Nav label styling */
+.nav-label {
+    color: rgba(255, 255, 255, 0.6);
+    padding: 10px 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Fix for sidebar height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#main-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fix for tab overflow */
+.tab-content {
+    padding: 20px 0;
+}
+
+/* Active menu item */
+.metismenu li a.active {
+    background-color: #2e2340;
+    color: #fff;
+    border-left: 4px solid #fff;
+}
+
+/* Submenu styling */
+.metismenu ul a {
+    padding-left: 40px;
+    background-color: #3a2e4c;
+}
+
+.metismenu ul a:hover,
+.metismenu ul a:focus {
+    background-color: #2e2340;
+}
+
+/* Fix for header elements */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+/* Fix for dropdown menus */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+

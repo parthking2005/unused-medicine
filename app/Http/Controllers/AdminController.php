@@ -156,11 +156,27 @@ class AdminController extends Controller
         return view('admin.viewDonationHistory', ['today' => $today, 'yesterday' => $yesterday, 'lastweek' => $lastweek, 'lastmonth' => $lastmonth, 'lastyear' => $lastyear, 'all' => $all]);
     }
 
+    public function viewMessages()
+    {
+        $messages = Message::orderBy('created_at', 'desc')->get();
+        return view('admin.messages', ['messages' => $messages]);
+    }
+
+    public function updateMessageVisibility(Request $request, $id)
+    {
+        $message = Message::findOrFail($id);
+        $message->visibility = !$message->visibility;
+        $message->save();
+
+        return back()->with('success', 'Message visibility updated successfully.');
+    }
+
     public function showMessages()
     {
         $messages = Message::where('visibility', true)->get();
         return view('admin.notificationmessage', ['messages' => $messages]);
     }
+
     public function doneMessages($id)
     {
         if (Message::where('id', $id)->update(['visibility' => false])) {
